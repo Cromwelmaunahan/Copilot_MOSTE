@@ -1,4 +1,4 @@
-# Local clones / runtime junk (never needed by Copilot)
+# VS Code Copilot runtime / local state
 ide/
 *.lock
 
