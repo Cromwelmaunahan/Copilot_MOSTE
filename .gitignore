@@ -1,0 +1,7 @@
+# Local clones / runtime junk (never needed by Copilot)
+ide/
+*.lock
+
+# OS noise
+Thumbs.db
+.DS_Store
