@@ -1,103 +1,137 @@
-# Copilot_MOSTE — Shared GitHub Copilot Agent & Skills (ATV MOS D TE)
+# Copilot Customization Pack (ATV MOS D TE)
 
-Custom GitHub Copilot **agent** and **skills** for MOS test-engineering work on ETS-88.
+Custom GitHub Copilot setup for MOS test-engineering work on ETS-88.
 Author: Maunahan Cromwel Miranda (ATV MOS D TE).
 
-After installing, your GitHub Copilot in VS Code will gain:
+This `.copilot` setup now covers all four customization areas:
 
-- **Agent:** `Super MOS TE` — an ETS-88 / MOS test-program specialist (with the ETS-88
-  manual bundled as its knowledge base).
-- **Skills** (trigger by phrase in Copilot Chat):
-  - `relay-status-logger` — "Log relay status of <file>.cpp"
-  - `resource-status-logger` — "Log resource status of <file>.cpp"
-  - `commitdetails-update-track-all-changes` — "Update CommitDetails"
-  - `flatten-store-relayconfig-oldhib-commentout` — "Comment out Indexparallel relays <file>.cpp"
+- **Agent:** `Super MOS TE`
+- **Skills:** relay/resource loggers, CommitDetails updater, relay-config helper
+- **Prompts:** reusable prompt files under `.copilot\prompts`
+- **MCP server:** `frontend-data-manager-te`
+
+For sharing with other engineers, treat paths as user-relative:
+
+- Your local path example: `C:\Users\maunahan\.copilot`
+- Any engineer path pattern: `C:\Users\<their-username>\.copilot`
+- Equivalent PowerShell form (recommended in docs/commands): `$HOME\.copilot`
+
+`$HOME` automatically points to the current Windows user profile, so each engineer can run the same commands without editing usernames.
 
 ---
 
-## What this repo contains
+## Folder layout (single source)
+
+Use this as the canonical structure:
 
 ```
-Copilot_MOSTE/
-├── agents/
-│   ├── super-te.agent.md            <- the Super MOS TE agent
-│   └── knowledge/                   <- ETS-88 manual (used by the agent)
-├── skills/
-│   ├── relay-status-logger/SKILL.md
-│   ├── resource-status-logger/SKILL.md
-│   ├── commitdetails-update-track-all-changes/SKILL.md
-│   └── flatten-store-relayconfig-oldhib-commentout/SKILL.md
-├── install.ps1                      <- one-command installer (Windows)
+$HOME\.copilot\
+├── agents\
+├── skills\
+├── prompts\
+├── MCPservers\
+│   └── frontend-data-manager-te\
+│       └── Frontend_Data_Manager_for_TE.md
+├── instructions\
 └── README.md
 ```
 
-> IMPORTANT: GitHub Copilot does **not** read this repo directly. It only reads from a
-> fixed folder on your machine: `%USERPROFILE%\.copilot\`. So you must **copy** the
-> `agents` and `skills` folders into your own `.copilot` folder (steps below).
-> This repo is just the shareable source — installing copies it into the right place.
+Notes:
+- Do not use `$HOME\.copilot\Copilot_MOSTE` anymore.
+- Keep customization files directly under `$HOME\.copilot\...`.
 
 ---
 
-## Install (Windows) — the easy way
+## Quick start
 
-1. **The repo is already in** `%USERPROFILE%\.copilot\Copilot_MOSTE`:
-
-   ```powershell
-   cd "$HOME\.copilot\Copilot_MOSTE"
-   ```
-
-2. **Run the installer** (copies `agents` + `skills` into your `%USERPROFILE%\.copilot\`):
-
-   In PowerShell (opened in the `Copilot_MOSTE` folder), run:
+1. Open PowerShell in your `.copilot` folder:
 
    ```powershell
-   powershell -ExecutionPolicy Bypass -File .\install.ps1
+   cd "$HOME\.copilot"
    ```
 
-   Or: right-click inside `C:\Users\maunahan\.copilot\Copilot_MOSTE` → "Open in Terminal" → paste the command above.
+2. Verify your key folders exist:
 
-   > **Other engineers**: Clone this repo, copy the `Copilot_MOSTE` folder into your `%USERPROFILE%\.copilot\`, then run the installer command above. All agents and skills will then be available in your GitHub Copilot.
+   ```powershell
+   Get-ChildItem "$HOME\.copilot"
+   ```
 
-3. **Restart / reload VS Code** so Copilot re-scans.
-   Open Copilot Chat → the agent dropdown should now show **Super MOS TE**, and the
-   skills above are usable by their trigger phrases.
+3. **MCP server — extra step required:**
+   The MCP server is NOT auto-discovered from `.copilot`. You must register it manually
+   in the `.vscode\mcp.json` file inside each workspace where you want to use it.
+   See the [MCP server](#mcp-server) section below for the registration block.
+   Replace `<your-username>` with your Windows login name (run `$env:USERNAME` to check).
 
-That's it.
+4. Reload VS Code so Copilot re-scans customizations.
+   - Agent, Skills, Prompts, and MCP server will all be available after reload.
 
 ---
 
-## Install — the manual way (if you prefer Explorer)
+## Agent and Skills
 
-Copy these two folders from the cloned repo into your user `.copilot` folder:
+Agent:
+- `Super MOS TE` — ETS-88 / MOS test-program specialist.
 
-| Copy from (this repo) | Paste into (your machine) |
-| --------------------- | ------------------------- |
-| `Copilot_MOSTE\agents` | `%USERPROFILE%\.copilot\agents` |
-| `Copilot_MOSTE\skills` | `%USERPROFILE%\.copilot\skills` |
+Skill trigger examples:
+- `Log relay status of <file>.cpp`
+- `Log resource status of <file>.cpp`
+- `Update CommitDetails`
+- `Comment out Indexparallel relays <file>.cpp`
 
-Final result on your machine must look like:
+---
 
+## Prompts
+
+Prompt files are supported and should follow a single-source rule.
+
+- **Canonical prompts folder:** `$HOME\.copilot\prompts`
+
+Recommended practice:
+- Keep master prompt files in `$HOME\.copilot\prompts`.
+- Keep a single source only in this folder to avoid duplicate prompt versions.
+
+---
+
+## MCP server
+
+This setup includes an MCP server under `.copilot`:
+
+- **Server ID:** `frontend-data-manager-te`
+- **Server folder:** `$HOME\.copilot\MCPservers\frontend-data-manager-te`
+- **Server docs (single source):** `$HOME\.copilot\MCPservers\frontend-data-manager-te\Frontend_Data_Manager_for_TE.md`
+- **Entry module:** `python -m fe_data_manager.server`
+
+Registration example (`.vscode/mcp.json` template):
+
+```json
+{
+  "servers": {
+    "frontend-data-manager-te": {
+      "type": "stdio",
+      "command": "$HOME/AppData/Local/Microsoft/WindowsApps/python3.11.exe",
+      "args": ["-m", "fe_data_manager.server"],
+      "cwd": "$HOME/.copilot/MCPservers/frontend-data-manager-te",
+      "env": {
+        "FE_DATA_ROOT": "$HOME/Projects/Copilot_FE_data"
+      }
+    }
+  }
+}
 ```
-C:\Users\<you>\.copilot\
-├── agents\super-te.agent.md   (+ knowledge\)
-└── skills\<skill-name>\SKILL.md
-```
 
-Then restart VS Code.
-
-> Note: the folders MUST land directly under `.copilot\` (i.e. `.copilot\agents`,
-> `.copilot\skills`). Do not nest them inside an extra subfolder, or Copilot won't find them.
+Important:
+- Replace `$HOME` with your actual user-home path if your tool does not expand environment variables in JSON.
+- Keep only one MCP markdown descriptor (inside the server folder).
 
 ---
 
 ## Updating later
 
-To get the newest version after the author pushes changes:
+If your `.copilot` folder is managed with Git:
 
 ```powershell
-cd "$HOME\Projects\Copilot_MOSTE"
+cd "$HOME\.copilot"
 git pull
-powershell -ExecutionPolicy Bypass -File .\install.ps1   # re-copies the latest
 ```
 
 Then reload VS Code.
@@ -106,9 +140,6 @@ Then reload VS Code.
 
 ## Notes & safety
 
-- The installer only adds/overwrites the **specific** agent and skill folders shipped
-  here. It does **not** delete or touch any other agents/skills you created yourself.
-- If you already have a skill or agent with the **same name**, installing will overwrite
-  it with this repo's version. Rename yours first if you want to keep both.
-- Requires: GitHub Copilot + GitHub Copilot Chat extensions in VS Code, with an active
-  Copilot license.
+- This setup is for **Agent + Skills + Prompts + MCP server** customizations.
+- Keep paths generic with `$HOME` in docs/examples for reuse by other engineers.
+- Requires GitHub Copilot + GitHub Copilot Chat extensions in VS Code, with an active Copilot license.

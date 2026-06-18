@@ -1,42 +1,55 @@
 # install.ps1
-# Copies the Super MOS TE agent + skills from this repo into your
-# personal GitHub Copilot folder (%USERPROFILE%\.copilot), where Copilot reads them.
+# Installs/updates this Copilot customization pack into $HOME\.copilot.
 #
-# Usage (from the cloned repo folder):
+# Coverage:
+# - agents
+# - skills
+# - prompts
+# - MCPservers
+# - instructions
+#
+# Usage:
 #   powershell -ExecutionPolicy Bypass -File .\install.ps1
 #
-# Safe by design: it only copies the 'agents' and 'skills' folders shipped here.
-# It does NOT delete your other agents/skills. Same-named items are overwritten.
+# Safe by design:
+# - It only copies known customization folders.
+# - It does NOT delete unrelated files in $HOME\.copilot.
+# - Same-named files are overwritten with the source version.
 
 $ErrorActionPreference = 'Stop'
 
-$repo   = $PSScriptRoot
-$target = Join-Path $env:USERPROFILE '.copilot'
+$sourceRoot = [System.IO.Path]::GetFullPath($PSScriptRoot)
+$targetRoot = [System.IO.Path]::GetFullPath((Join-Path $env:USERPROFILE '.copilot'))
 
-Write-Host "Installing Copilot_MOSTE ->" $target -ForegroundColor Cyan
+Write-Host "Installing Copilot customizations" -ForegroundColor Cyan
+Write-Host "  Source: $sourceRoot" -ForegroundColor DarkCyan
+Write-Host "  Target: $targetRoot" -ForegroundColor DarkCyan
 
-# Ensure destination folders exist
-New-Item -ItemType Directory -Force (Join-Path $target 'agents') | Out-Null
-New-Item -ItemType Directory -Force (Join-Path $target 'skills') | Out-Null
+$foldersToManage = @('agents', 'skills', 'prompts', 'MCPservers', 'instructions')
 
-# Copy agent(s)
-$srcAgents = Join-Path $repo 'agents'
-if (Test-Path $srcAgents) {
-    Copy-Item (Join-Path $srcAgents '*') (Join-Path $target 'agents') -Recurse -Force
-    Write-Host "  + agents copied" -ForegroundColor Green
-} else {
-    Write-Warning "  ! no 'agents' folder found in repo"
+# Always ensure canonical folders exist in $HOME\.copilot
+foreach ($folder in $foldersToManage) {
+    New-Item -ItemType Directory -Force (Join-Path $targetRoot $folder) | Out-Null
 }
 
-# Copy skill(s)
-$srcSkills = Join-Path $repo 'skills'
-if (Test-Path $srcSkills) {
-    Copy-Item (Join-Path $srcSkills '*') (Join-Path $target 'skills') -Recurse -Force
-    Write-Host "  + skills copied" -ForegroundColor Green
+if ($sourceRoot -ieq $targetRoot) {
+    Write-Host "" 
+    Write-Host "Source is already the canonical .copilot folder. No copy required." -ForegroundColor Green
+    Write-Host "Verified folders: $($foldersToManage -join ', ')" -ForegroundColor Green
 } else {
-    Write-Warning "  ! no 'skills' folder found in repo"
+    foreach ($folder in $foldersToManage) {
+        $src = Join-Path $sourceRoot $folder
+        $dst = Join-Path $targetRoot $folder
+
+        if (Test-Path $src) {
+            Copy-Item (Join-Path $src '*') $dst -Recurse -Force
+            Write-Host "  + $folder copied" -ForegroundColor Green
+        } else {
+            Write-Warning "  ! '$folder' not found in source, skipped"
+        }
+    }
 }
 
 Write-Host ""
-Write-Host "Done. Now RESTART / RELOAD VS Code so Copilot re-scans." -ForegroundColor Yellow
-Write-Host "Then open Copilot Chat -> the 'Super MOS TE' agent should appear." -ForegroundColor Yellow
+Write-Host "Done. Reload VS Code so Copilot re-scans customizations." -ForegroundColor Yellow
+Write-Host "This setup supports: Agent, Skills, Prompts, and MCP server." -ForegroundColor Yellow
