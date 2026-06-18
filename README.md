@@ -112,7 +112,7 @@ Registration example (`.vscode/mcp.json` template):
       "args": ["-m", "fe_data_manager.server"],
       "cwd": "$HOME/.copilot/MCPservers/frontend-data-manager-te",
       "env": {
-        "FE_DATA_ROOT": "$HOME/Projects/Copilot_FE_data"
+        "FE_DATA_ROOT": "\\\\Mucsdn31\\ATV_Power_Pro\\MOSFET_TE\\Test_program_status_tracking\\Copilot_FE_data"
       }
     }
   }

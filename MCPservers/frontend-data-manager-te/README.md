@@ -29,7 +29,7 @@ Environment variables (all optional; defaults shown):
 
 | Variable | Default |
 | --- | --- |
-| `FE_DATA_ROOT` | `C:\Users\maunahan\Projects\Copilot_FE_data` |
+| `FE_DATA_ROOT` | `\\\\Mucsdn31\\ATV_Power_Pro\\MOSFET_TE\\Test_program_status_tracking\\Copilot_FE_data` |
 | `FE_OUTPUT_DIR` | `<FE_DATA_ROOT>\Generated_PPT` |
 | `FE_TEMPLATE_PPTX` | first `*.pptx` found in `FE_OUTPUT_DIR` (used as style template) |
 

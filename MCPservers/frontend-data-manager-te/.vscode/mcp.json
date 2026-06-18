@@ -6,7 +6,7 @@
       "args": ["-m", "fe_data_manager.server"],
       "cwd": "C:/Users/maunahan/.copilot/MCPservers/frontend-data-manager-te",
       "env": {
-        "FE_DATA_ROOT": "C:/Users/maunahan/Projects/Copilot_FE_data"
+        "FE_DATA_ROOT": "\\\\Mucsdn31\\ATV_Power_Pro\\MOSFET_TE\\Test_program_status_tracking\\Copilot_FE_data"
       }
     }
   }
