@@ -4,7 +4,7 @@
       "type": "stdio",
       "command": "C:/Users/maunahan/AppData/Local/Microsoft/WindowsApps/python3.11.exe",
       "args": ["-m", "fe_data_manager.server"],
-      "cwd": "C:/Users/maunahan/Projects/frontend-data-manager-te",
+      "cwd": "C:/Users/maunahan/.copilot/MCPservers/frontend-data-manager-te",
       "env": {
         "FE_DATA_ROOT": "C:/Users/maunahan/Projects/Copilot_FE_data"
       }

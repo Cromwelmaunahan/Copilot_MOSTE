@@ -4,7 +4,7 @@ An MCP (Model Context Protocol) server that parses MOSFET **frontend test (`.eff
 for a chosen *basictype* and generates a PowerPoint report of the testing results.
 
 - **Server name:** `Frontend Data Manager for TE`
-- **Project:** `C:\Users\maunahan\Projects\frontend-data-manager-te`
+- **Project:** `C:\Users\maunahan\.copilot\MCPservers\frontend-data-manager-te`
 - **Language / stack:** Python 3.11, `mcp`, `pandas`, `numpy`, `matplotlib`, `python-pptx`
 - **Entry point:** `python -m fe_data_manager.server`
 
@@ -129,7 +129,7 @@ measurements fall within their spec limits.
       "type": "stdio",
       "command": "C:/Users/maunahan/AppData/Local/Microsoft/WindowsApps/python3.11.exe",
       "args": ["-m", "fe_data_manager.server"],
-      "cwd": "C:/Users/maunahan/Projects/frontend-data-manager-te",
+      "cwd": "C:/Users/maunahan/.copilot/MCPservers/frontend-data-manager-te",
       "env": { "FE_DATA_ROOT": "C:/Users/maunahan/Projects/Copilot_FE_data" }
     }
   }
