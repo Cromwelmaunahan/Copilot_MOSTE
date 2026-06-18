@@ -1,0 +1,22 @@
+[project]
+name = "frontend-data-manager-te"
+version = "1.0.0"
+description = "MCP server that turns MOSFET FE test .eff files into a PowerPoint results report."
+requires-python = ">=3.10"
+dependencies = [
+    "mcp>=1.2.0",
+    "pandas>=2.0",
+    "numpy>=1.24",
+    "matplotlib>=3.7",
+    "python-pptx>=0.6.21",
+]
+
+[project.scripts]
+fe-data-manager-te = "fe_data_manager.server:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["fe_data_manager"]
