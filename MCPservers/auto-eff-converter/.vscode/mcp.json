@@ -1,0 +1,14 @@
+{
+  "servers": {
+    "auto-eff-converter": {
+      "type": "stdio",
+      "command": "C:/Users/maunahan/AppData/Local/Microsoft/WindowsApps/python3.11.exe",
+      "args": ["-m", "auto_eff_converter.server"],
+      "cwd": "C:/Users/maunahan/.copilot/MCPservers/auto-eff-converter",
+      "env": {
+        "AEC_DATA_ROOT": "\\\\Mucsdn31\\ATV_Power_Pro\\MOSFET_TE\\Test_program_status_tracking\\Copilot_FE_data",
+        "AEC_ANALYZER_PATH": "C:\\Program Files\\STDF Analyzer 3.4.1.1\\_STDFAnalyser.exe"
+      }
+    }
+  }
+}

@@ -30,15 +30,39 @@ Environment variables (all optional; defaults shown):
 | Variable | Default |
 | --- | --- |
 | `FE_DATA_ROOT` | `\\\\Mucsdn31\\ATV_Power_Pro\\MOSFET_TE\\Test_program_status_tracking\\Copilot_FE_data` |
-| `FE_OUTPUT_DIR` | `<FE_DATA_ROOT>\Generated_PPT` |
+| `FE_OUTPUT_DIR` | `\\\\Mucsdn31\\ATV_Power_Pro\\MOSFET_TE\\Test_program_status_tracking\\Copilot_FE_data\\Generated_PPT` |
 | `FE_TEMPLATE_PPTX` | first `*.pptx` found in `FE_OUTPUT_DIR` (used as style template) |
 
 ## MCP tools
 
 - `list_basictypes()` – list the available basictype folders under the data root.
-- `generate_te_report(basictype)` – process all EFF files in the folder and write the `.pptx`.
+- `generate_fe_te_report(basictype=None)` – process all EFF files in the folder and write
+   the `.pptx`. If `basictype` is omitted, the server prompts the user to choose from the
+   available basictype folders.
+- `generate_te_report(basictype=None)` – compatibility alias for `generate_fe_te_report`.
 - `inspect_basictype(basictype)` – quick summary (wafers, test numbers, yield) without
   generating a report.
+
+## Usage guide (chat flow)
+
+1. Trigger with: `Generate a FE TE report`
+2. The server shows all available basictype folders from:
+   `\\Mucsdn31\ATV_Power_Pro\MOSFET_TE\Test_program_status_tracking\Copilot_FE_data`
+3. The user selects one basictype from the list.
+4. The generated `.pptx` is saved to:
+   `\\Mucsdn31\ATV_Power_Pro\MOSFET_TE\Test_program_status_tracking\Copilot_FE_data\Generated_PPT`
+
+Preferred chat phrasing examples:
+
+- `Generate a FE TE report`
+- `Generate a FE TE report for P8286C`
+
+When the chat does not include a basictype, the server shows the available basictypes from
+`\\Mucsdn31\ATV_Power_Pro\MOSFET_TE\Test_program_status_tracking\Copilot_FE_data` and
+asks the user to choose one.
+
+Generated PowerPoint files are saved under:
+`\\Mucsdn31\ATV_Power_Pro\MOSFET_TE\Test_program_status_tracking\Copilot_FE_data\Generated_PPT`.
 
 ## Run
 

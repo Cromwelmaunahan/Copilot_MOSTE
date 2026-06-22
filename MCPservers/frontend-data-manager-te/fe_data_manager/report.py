@@ -8,7 +8,7 @@ from __future__ import annotations
 
 import logging
 import tempfile
-from datetime import date
+from datetime import date, datetime
 from pathlib import Path
 
 import matplotlib
@@ -399,5 +399,6 @@ def build_report(ds: "analysis.BasicTypeDataset", output_path: Path) -> Path:
 
 
 def default_output_path(ds: "analysis.BasicTypeDataset") -> Path:
-    filename = f"{ds.p_code} \u2013 {ds.vf_code} FE Testing Results.pptx"
+    stamp = datetime.now().strftime("%Y%m%d_%H%M%S_%f")
+    filename = f"{ds.p_code} \u2013 {ds.vf_code} FE Testing Results {stamp}.pptx"
     return config.OUTPUT_DIR / filename

@@ -1,0 +1,19 @@
+[project]
+name = "auto-eff-converter"
+version = "1.0.0"
+description = "MCP server that drives the Infineon STDF Analyzer to convert .ST4 files into .eff files."
+requires-python = ">=3.10"
+dependencies = [
+    "mcp>=1.2.0",
+    "pywinauto>=0.6.9",
+]
+
+[project.scripts]
+auto-eff-converter = "auto_eff_converter.server:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["auto_eff_converter"]

@@ -28,10 +28,12 @@ Given a `basictype` (a subfolder of the data root, named after the basictype), t
 | --- | --- |
 | `list_basictypes()` | List basictype folders (those containing `.eff` files) under the data root. |
 | `inspect_basictype(basictype)` | Summary only: wafers, test numbers, per-wafer yield, skipped files. |
-| `generate_te_report(basictype, output_path=None)` | Parse all EFF files and write the report `.pptx`. |
+| `generate_fe_te_report(basictype=None, output_path=None)` | Parse all EFF files and write the report `.pptx`. If `basictype` is omitted, the server prompts the user to choose from the available basictype folders. |
+| `generate_te_report(basictype=None, output_path=None)` | Compatibility alias for `generate_fe_te_report`. |
 
-Typical flow: call `list_basictypes()`, ask the user which basictype, then
-`generate_te_report(basictype="P8266B")`.
+Typical flow: the user can say `Generate a FE TE report` and then choose one of the
+available basictype folders, or directly request
+`generate_fe_te_report(basictype="P8266B")`.
 
 ---
 
@@ -53,8 +55,9 @@ Typical flow: call `list_basictypes()`, ask the user which basictype, then
 
 ## 4. Output `.pptx`
 
-File name pattern: **`<P-code> – <VF-code> FE Testing Results.pptx`**, e.g.
-`P8266B – VF524022 FE Testing Results.pptx`, written to `FE_OUTPUT_DIR`.
+File name pattern: **`<P-code> – <VF-code> FE Testing Results <timestamp>.pptx`**,
+e.g. `P8266B – VF524022 FE Testing Results 20260622_092318_193597.pptx`, written to
+`FE_OUTPUT_DIR`.
 
 - `P-code` = the basictype folder name.
 - `VF-code` = the `Wafer` field inside the EFF data (e.g. `VF524022`).

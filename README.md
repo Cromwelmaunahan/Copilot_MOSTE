@@ -8,7 +8,7 @@ This `.copilot` setup now covers all four customization areas:
 - **Agent:** `Super MOS TE`
 - **Skills:** relay/resource loggers, CommitDetails updater, relay-config helper
 - **Prompts:** reusable prompt files under `.copilot\prompts`
-- **MCP server:** `frontend-data-manager-te`
+- **MCP servers:** `frontend-data-manager-te`, `auto-eff-converter`
 
 For sharing with other engineers, treat paths as user-relative:
 
@@ -101,6 +101,15 @@ This setup includes an MCP server under `.copilot`:
 - **Server docs (single source):** `$HOME\.copilot\MCPservers\frontend-data-manager-te\Frontend_Data_Manager_for_TE.md`
 - **Entry module:** `python -m fe_data_manager.server`
 
+How to use in chat:
+
+1. Trigger with: `Generate a FE TE report`
+2. The server shows all available basictypes from:
+  `\\Mucsdn31\ATV_Power_Pro\MOSFET_TE\Test_program_status_tracking\Copilot_FE_data`
+3. Select one basictype from the list.
+4. The generated `.pptx` is saved to:
+  `\\Mucsdn31\ATV_Power_Pro\MOSFET_TE\Test_program_status_tracking\Copilot_FE_data\Generated_PPT`
+
 Registration example (`.vscode/mcp.json` template):
 
 ```json
@@ -112,7 +121,8 @@ Registration example (`.vscode/mcp.json` template):
       "args": ["-m", "fe_data_manager.server"],
       "cwd": "$HOME/.copilot/MCPservers/frontend-data-manager-te",
       "env": {
-        "FE_DATA_ROOT": "\\\\Mucsdn31\\ATV_Power_Pro\\MOSFET_TE\\Test_program_status_tracking\\Copilot_FE_data"
+        "FE_DATA_ROOT": "\\\\Mucsdn31\\ATV_Power_Pro\\MOSFET_TE\\Test_program_status_tracking\\Copilot_FE_data",
+        "FE_OUTPUT_DIR": "\\\\Mucsdn31\\ATV_Power_Pro\\MOSFET_TE\\Test_program_status_tracking\\Copilot_FE_data\\Generated_PPT"
       }
     }
   }
@@ -122,6 +132,47 @@ Registration example (`.vscode/mcp.json` template):
 Important:
 - Replace `$HOME` with your actual user-home path if your tool does not expand environment variables in JSON.
 - Keep only one MCP markdown descriptor (inside the server folder).
+
+### Auto-EFF-Converter
+
+A second MCP server that drives the local **STDF Analyzer** app to convert `.ST4` files into
+`.eff` files.
+
+- **Server ID:** `auto-eff-converter`
+- **Server folder:** `$HOME\.copilot\MCPservers\auto-eff-converter`
+- **Entry module:** `python -m auto_eff_converter.server`
+
+How to use in chat:
+
+1. Trigger with: `Convert ST4 to EFF`
+2. Select a basictype from the list shown (folders under
+   `\\Mucsdn31\ATV_Power_Pro\MOSFET_TE\Test_program_status_tracking\Copilot_FE_data`).
+3. Select the ST4 file to convert.
+4. The `.eff` is saved next to the ST4 as `wafernum<N>_<base>.eff` (wafer number taken from
+   the ST4 file name).
+
+Registration example (`.vscode/mcp.json` template):
+
+```json
+{
+  "servers": {
+    "auto-eff-converter": {
+      "type": "stdio",
+      "command": "$HOME/AppData/Local/Microsoft/WindowsApps/python3.11.exe",
+      "args": ["-m", "auto_eff_converter.server"],
+      "cwd": "$HOME/.copilot/MCPservers/auto-eff-converter",
+      "env": {
+        "AEC_DATA_ROOT": "\\\\Mucsdn31\\ATV_Power_Pro\\MOSFET_TE\\Test_program_status_tracking\\Copilot_FE_data",
+        "AEC_ANALYZER_PATH": "C:\\Program Files\\STDF Analyzer 3.4.1.1\\_STDFAnalyser.exe"
+      }
+    }
+  }
+}
+```
+
+> This server uses Windows UI automation (pywinauto), so it must run on the same machine as
+> the STDF Analyzer with a visible interactive desktop. Window title and menu paths are
+> re-calibratable via `AEC_*` environment variables.
 
 ---
 
