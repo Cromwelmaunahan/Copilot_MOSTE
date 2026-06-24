@@ -6,7 +6,7 @@ Author: Maunahan Cromwel Miranda (ATV MOS D TE).
 This `.copilot` setup now covers all four customization areas:
 
 - **Agent:** `Super MOS TE`
-- **Skills:** relay/resource loggers, CommitDetails updater, relay-config helper
+- **Skills:** relay/resource loggers, CommitDetails updater, relay-config helper, HIB circuit viewer
 - **Prompts:** reusable prompt files under `.copilot\prompts`
 - **MCP servers:** `frontend-data-manager-te`, `auto-eff-converter`
 
@@ -77,6 +77,7 @@ Skill trigger examples:
 - `Log resource status of <file>.cpp`
 - `Update CommitDetails`
 - `Comment out Indexparallel relays <file>.cpp`
+- `Create HIB circuit view`
 
 ---
 
